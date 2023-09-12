@@ -7,5 +7,5 @@ import { Student } from 'src/app/model/student';
   styleUrls: ['./student-card.component.scss']
 })
 export class StudentCardComponent {
-  @Input() studentInfo:Student;
+  @Input() studentInfo?:Student;
 }
