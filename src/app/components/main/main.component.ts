@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Student } from 'src/app/model/student';
+import { ConnectionService } from 'src/app/services/connection.service';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -8,49 +9,47 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-  groupNumber:number = 7;
+  groupNumber:number = 5;
   groups:Student[][] = [];
-  mockData:Student[] = [];
-  constructor(private dataServe:DataService) {
+  studentsData:Student[] = [];
 
-  }
+  constructor(private dataServ:DataService) {}
 
   ngOnInit(): void {
-    this.dataServe.getStatus().then(students => {
-      this.mockData = students;
-      this.createGroups();
-    });
+    this.studentsData = this.dataServ.studentsArray;
+    this.createGroups();
   }
 
   randomize(): void {
     const tempArray = [];
-    const originalLength = this.mockData.length;
+    const originalLength = this.studentsData.length;
 
     for (let i = 0; i < originalLength; i++) {
-      const randomIndex = Math.floor(Math.random() * this.mockData.length);
-      const student = this.mockData[randomIndex];
+      const randomIndex = Math.floor(Math.random() * this.studentsData.length);
+      const student = this.studentsData[randomIndex];
 
       tempArray.push(student);
-      this.mockData.splice(randomIndex, 1);
+      this.studentsData.splice(randomIndex, 1);
     }
-    this.mockData = tempArray;
+    this.studentsData = tempArray;
+    this.createGroups();
   }
 
-  createGroups(): void{
+  createGroups(): void {
     // for (let i = 0; i < this.groupNumber; i++) {
     //   const group:Student[] = []
-    //   const studentNumber = Math.floor(this.mockData.length / this.groupNumber);
+    //   const studentNumber = Math.floor(this.studentsData.length / this.groupNumber);
     //   const start = studentNumber * i;
     //   let endNumber;
 
     //   if (i === this.groupNumber - 1) {
-    //     endNumber = this.mockData.length
+    //     endNumber = this.studentsData.length
     //   } else {
     //     endNumber = start + studentNumber;
     //   }
     //   for (let j = start; j < endNumber; j++) {
-    //     if (j < this.mockData.length) {
-    //       const student = this.mockData[j];
+    //     if (j < this.studentsData.length) {
+    //       const student = this.studentsData[j];
 
     //       group.push(student);
     //     }
@@ -61,13 +60,13 @@ export class MainComponent implements OnInit {
 
     this.groups = []
 
-    for (let i = 0; i < this.mockData.length; i++) {
+    for (let i = 0; i < this.studentsData.length; i++) {
       const groupIndex = i % this.groupNumber;
 
       if (this.groups[groupIndex] === undefined) {
         this.groups[groupIndex] = [];
       }
-      const student = this.mockData[i];
+      const student = this.studentsData[i];
 
       this.groups[groupIndex].push(student);
     }
@@ -79,9 +78,9 @@ console.log(this.groups);
     //   this.groups.push([]);
     // }
 
-    // const tempStudents = [...this.mockData];
+    // const tempStudents = [...this.studentsData];
 
-    // while(tempStudents.length>0){
+    // while(tempStudents.length>0) {
     //   for (let i = 0; i < this.groups.length; i++) {
     //     const firstStudent = tempStudents.shift();
     //     if (firstStudent) {
@@ -93,6 +92,11 @@ console.log(this.groups);
     }
 
     removeStudent(student:Student): void {
-      console.log(student);
+      this.studentsData = this.studentsData.filter(s => s.id !== student.id);
+      this.createGroups();
+    }
+
+    log() {
+      console.log(this.dataServ);
     }
 }
