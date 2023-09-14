@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Student } from 'src/app/model/student';
 
 @Component({
@@ -8,4 +8,9 @@ import { Student } from 'src/app/model/student';
 })
 export class StudentCardComponent {
   @Input() studentInfo?:Student;
+  @Output() absent:EventEmitter<Student> = new EventEmitter();
+
+  makeAbsent() {
+    this.absent.emit(this.studentInfo);
+  }
 }

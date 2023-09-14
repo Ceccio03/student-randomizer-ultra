@@ -1,5 +1,8 @@
 <div class="card" *ngIf="studentInfo">
-    <img class="card-img" src="{{studentInfo.imageUrl}}" alt="">
-    <h3>{{studentInfo.name}} {{studentInfo.surname}}</h3>
-    <span>Età: {{studentInfo.age}}</span>
+    <img src="{{studentInfo.imageUrl}}" alt="">
+    <div class="card-text">
+        <h3>{{studentInfo.name}} {{studentInfo.surname}}</h3>
+        <span>Età: {{studentInfo.age}}</span>
+        <button (click)="makeAbsent()">Assente</button>
+    </div>
 </div>

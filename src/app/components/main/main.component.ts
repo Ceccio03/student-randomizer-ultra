@@ -91,4 +91,8 @@ console.log(this.groups);
     // }
     // console.log(this.groups)
     }
+
+    removeStudent(student:Student): void {
+      console.log(student);
+    }
 }
